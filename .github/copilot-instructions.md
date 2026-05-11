@@ -1,0 +1,5 @@
+- Keep the project in Expo managed workflow with TypeScript.
+- Use React Navigation, Zustand, and react-native-reanimated for the app architecture.
+- Prefer small, typed, composable components and screen-specific files under /src.
+- Keep styling in StyleSheet.create and use the shared theme tokens.
+- Use mock data only; do not add backend assumptions.

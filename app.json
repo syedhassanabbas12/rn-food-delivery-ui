@@ -1,0 +1,22 @@
+{
+  "expo": {
+    "name": "Food Delivery Portfolio",
+    "slug": "food-delivery-portfolio",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "scheme": "fooddeliveryportfolio",
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#FF6B35"
+      }
+    },
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}
