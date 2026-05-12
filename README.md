@@ -12,13 +12,13 @@ A polished React Native food delivery UI portfolio project built with Expo and T
 
 ## Screenshots
 
-Placeholder screenshots will be added here.
+Place screenshots in the `screenshots/` folder and reference them here.
 
-- Splash Screen: `TODO`
-- Home Screen: `TODO`
-- Restaurant Detail Screen: `TODO`
-- Cart Screen: `TODO`
-- Order Tracking Screen: `TODO`
+- Splash Screen: `screenshots/splash.png`
+- Home Screen: `screenshots/home.png`
+- Restaurant Detail Screen: `screenshots/restaurant-detail.png`
+- Cart Screen: `screenshots/cart.png`
+- Order Tracking Screen: `screenshots/order-tracking.png`
 
 ## Features
 
