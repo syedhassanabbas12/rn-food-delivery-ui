@@ -3,6 +3,7 @@ import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
 import type { StackNavigationProp } from '@react-navigation/stack';
 import Animated, { interpolate, useAnimatedScrollHandler, useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { restaurants } from '../data/restaurants';
 import type { RootStackParamList } from '../navigation/types';
@@ -63,6 +64,9 @@ export function RestaurantDetailScreen() {
   const route = useRoute<RestaurantDetailRouteProp>();
   const navigation = useNavigation<RestaurantDetailNavigationProp>();
   const scrollY = useSharedValue(0);
+  const cartItemCount = useCartStore((state) =>
+    state.items.reduce((total, item) => total + item.quantity, 0),
+  );
 
   const restaurant = useMemo(
     () => getRestaurantById(route.params.restaurantId),
@@ -85,7 +89,6 @@ export function RestaurantDetailScreen() {
 
   const topHeaderStyle = useAnimatedStyle(() => ({
     opacity: interpolate(scrollY.value, [20, 90], [0, 1]),
-    transform: [{ translateY: interpolate(scrollY.value, [20, 90], [-10, 0]) }],
   }));
 
   const onScroll = useAnimatedScrollHandler({
@@ -121,7 +124,12 @@ export function RestaurantDetailScreen() {
           onPress={() => navigation.navigate('MainTabs', { screen: 'CartTab' })}
           style={styles.stickyCartButton}
         >
-          <Text style={styles.stickyCartIcon}>🛒</Text>
+          <MaterialCommunityIcons name="cart-outline" size={22} color={colors.primaryDark} />
+          {cartItemCount > 0 ? (
+            <View style={styles.stickyCartBadge}>
+              <Text style={styles.stickyCartBadgeText}>{cartItemCount > 9 ? '9+' : cartItemCount}</Text>
+            </View>
+          ) : null}
         </Pressable>
       </Animated.View>
 
@@ -143,7 +151,12 @@ export function RestaurantDetailScreen() {
                 onPress={() => navigation.navigate('MainTabs', { screen: 'CartTab' })}
                 style={styles.heroCartButton}
               >
-                <Text style={styles.heroCartIcon}>🛒</Text>
+                <MaterialCommunityIcons name="cart-outline" size={22} color={colors.primaryDark} />
+                {cartItemCount > 0 ? (
+                  <View style={styles.heroCartBadge}>
+                    <Text style={styles.heroCartBadgeText}>{cartItemCount > 9 ? '9+' : cartItemCount}</Text>
+                  </View>
+                ) : null}
               </Pressable>
               <View style={styles.heroOverlay} />
               <View style={styles.heroCaption}>
@@ -252,6 +265,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surface,
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
+    shadowColor: '#000',
+    shadowOpacity: 0.04,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 3,
   },
   stickyBackButton: {
     width: 40,
@@ -273,9 +291,30 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginLeft: spacing.md,
+    position: 'relative',
   },
   stickyCartIcon: {
     fontSize: 18,
+  },
+  stickyCartBadge: {
+    position: 'absolute',
+    top: -4,
+    right: -4,
+    minWidth: 16,
+    height: 16,
+    borderRadius: 8,
+    paddingHorizontal: 3,
+    backgroundColor: colors.primaryDark,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: colors.surface,
+  },
+  stickyCartBadgeText: {
+    color: colors.surface,
+    fontFamily: typography.fonts.bold,
+    fontSize: 9,
+    lineHeight: 11,
   },
   stickyTitle: {
     color: colors.text,
@@ -331,6 +370,26 @@ const styles = StyleSheet.create({
   },
   heroCartIcon: {
     fontSize: 18,
+  },
+  heroCartBadge: {
+    position: 'absolute',
+    top: -4,
+    right: -4,
+    minWidth: 16,
+    height: 16,
+    borderRadius: 8,
+    paddingHorizontal: 3,
+    backgroundColor: colors.primaryDark,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: colors.surface,
+  },
+  heroCartBadgeText: {
+    color: colors.surface,
+    fontFamily: typography.fonts.bold,
+    fontSize: 9,
+    lineHeight: 11,
   },
   heroOverlay: {
     position: 'absolute',

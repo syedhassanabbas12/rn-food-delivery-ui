@@ -33,6 +33,23 @@ function TabIcon({ focused, glyph }: { focused: boolean; glyph: string }) {
   );
 }
 
+function CartTabIcon({ focused, count }: { focused: boolean; count: number }) {
+  return (
+    <View style={[styles.iconChip, focused ? styles.iconChipActive : styles.iconChipInactive]}>
+      <MaterialCommunityIcons
+        name="cart-outline"
+        size={20}
+        color={focused ? colors.primaryDark : colors.textSecondary}
+      />
+      {count > 0 ? (
+        <View style={styles.iconBadge}>
+          <Text style={styles.iconBadgeText}>{count > 9 ? '9+' : count}</Text>
+        </View>
+      ) : null}
+    </View>
+  );
+}
+
 function TabButton({
   children,
   onPress,
@@ -100,9 +117,7 @@ export function BottomTabNavigator() {
         component={CartScreen}
         options={{
           tabBarLabel: ({ focused }) => <TabLabel focused={focused} label="Cart" />,
-          tabBarIcon: ({ focused }) => <TabIcon focused={focused} glyph="cart-outline" />,
-          tabBarBadge: cartItemCount > 0 ? cartItemCount : undefined,
-          tabBarBadgeStyle: styles.badge,
+          tabBarIcon: ({ focused }) => <CartTabIcon focused={focused} count={cartItemCount} />,
         }}
       />
     </Tab.Navigator>
@@ -163,12 +178,13 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
   },
   iconChip: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 2,
+    position: 'relative',
   },
   iconChipActive: {
     backgroundColor: colors.primarySoft,
@@ -179,13 +195,24 @@ const styles = StyleSheet.create({
   iconGlyph: {
     fontSize: 18,
   },
-  badge: {
-    backgroundColor: colors.primary,
-    minWidth: 18,
-    height: 18,
-    borderRadius: 9,
-    top: 6,
-    right: -2,
-    borderWidth: 0,
+  iconBadge: {
+    position: 'absolute',
+    top: -4,
+    right: -5,
+    minWidth: 17,
+    height: 17,
+    borderRadius: 8.5,
+    paddingHorizontal: 3,
+    backgroundColor: colors.primaryDark,
+    borderWidth: 2,
+    borderColor: colors.surface,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  iconBadgeText: {
+    color: colors.surface,
+    fontFamily: typography.fonts.bold,
+    fontSize: 9,
+    lineHeight: 11,
   },
 });
